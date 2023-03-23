@@ -24,7 +24,7 @@ Suppose an educational institute has certain students each of whom are enrolled 
 
 ---
 ## Model Summary
-A brief summary of the model is presented below. This can be used to set up a solver environment for this problem. For detailed model description please read the documentation.
+A brief summary of the model is presented below. This can be used to set up a solver environment for this problem. For detailed model description please read the [documentation](Documentation.pdf).
 
 ### Sets:
 |Definition|Symbol|Description|
