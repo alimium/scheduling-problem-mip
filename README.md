@@ -41,8 +41,8 @@ $a_{s,c}=\begin{cases}1 & Student\;s\;is\;enrolled\;in\;course\;c \\ 0 & o.w. \e
 
 ### Variables:
 #### Primary Variables:
-Binary: $\delta{c,d,h,r}=\begin{cases} 1 & \text{Exam for course c is held on day d at time h in room r} \\ 0 & o.w. \end{cases}$
-Non-Negative Integer: $x_{c,d,h,r}$ : Number of enrolled students in course $c$ whose exam is held in room $r$
+Binary: $\delta{c,d,h,r}= 1$ If exam for course $c$ is held on day $d$ at time $h$ in room $r$.  
+Non-Negative Integer: $x_{c,d,h,r}$ : Number of enrolled students in course $c$ whose exam is held in room $r$.
 
 #### Intermediate Variables:
 > **Attention**  
