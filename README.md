@@ -1,10 +1,3 @@
-_Special thanks to Maryam Sadeghi for her great help that made this project possible._
-
-> Contact Information:  
-> [Ali Mehrabi](mailto:alimehrabi002@gmail.com)  
-> [Maryam Sadeghi](mailto:miryamsadeghi82@gmail.com)
-
----
 ## Further work
 Below are future plans and further ideas:
 - Implementation of the problem using genetic algorithms.
