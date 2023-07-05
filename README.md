@@ -1,12 +1,13 @@
 ## Further work
 Below are future plans and further ideas:
 - Implementation of the problem using genetic algorithms.
-- Fine-tuning solver hyperparameters to achieve best results.
+- Fine-tuning solver hyperparameters to achieve better results.
 
 
 ---
 ## Introduction & Problem Definition
-Suppose an educational institute has certain students each of whom are enrolled in certain courses. A final exam is going to be held for each course. All exams must take place within a specific time window. _(i.e. one weeks)_ During these dates, there are specific valid time periods that exams can be held at. _(i.e. 8 AM - 10 AM, 10 AM - 12 PM, 14 PM - 16 PM)_ Also, all exams must be held in available rooms which have certain capacities.
+Suppose an educational institute has a number of students each enrolled in certain courses. A final exam is going to be held for each course. All exams must take place within a specific time window. _(i.e. one week)_ During these dates, there are specific valid time periods that exams can be held at. _(i.e. 8 AM - 10 AM, 10 AM - 12 PM, 14 PM - 16 PM)_ Also, all exams must be held in available rooms which have certain capacities.
+
 > **Notice**  
 > The list of students is available. In other words it is known that which student is enrolled in what courses.
 
@@ -20,7 +21,7 @@ Suppose an educational institute has certain students each of whom are enrolled 
 **Preferred constraints: (In order of preference)**
 1. Each student should preferably have no more than one exam in a day.
 2. Each student should preferably have at least one day off between their exams.
-3. Preferably, only one course exam should be scheduled in each room during a given time period.
+3. Preferably, only one course's exam should be scheduled in each room during a given time period.
 
 ---
 ## Model Summary
@@ -70,16 +71,25 @@ $$\begin{equation}\begin{aligned} min \;\; z & = \sum_{s,d,h}U_{s,d,h}\cdot\lamb
 
 ### Constraints:
 $$\sum_{d,h,r} \delta_{c,d,h,r} \geq 1 \hspace{1cm} \forall c$$
+
 $$\sum_{d^\prime, h^\prime, r^\prime : (d,h)\neq(d^\prime, h^\prime)} \delta_{c,d^\prime,h^\prime, r^\prime} \leq |\mathbb{D \times H \times R}|\cdot(1-\delta_{c,d,h,r})\hspace{1cm} \forall s,c,d,h,r$$
+
 $$\sum_{r}a_{s,c}\cdot\delta_{c,d,h,r} \leq \|\mathbb{R}\|\cdot \psi_{s,c,d,h} \hspace{1cm} \forall s,c,d,h$$
+
 $$\sum_{c^\prime,r \; \colon \; c \neq c^\prime} a_{s,c^\prime}\cdot\delta_{c^\prime,d,h,r} \leq\|\mathbb{C\times R}\|\cdot (1-\psi_{s,c,d,h}) \hspace{1cm} \forall s,c,d,h$$
+
 $$\sum_{c}x_{c,d,h,r} \leq Cap_r \hspace{1cm} \forall d,h,r$$
-&nbsp;
+
 $$\sum_{r, c} a_{s,c}\cdot \delta_{c,d,h,r} - \lambda_{s,d,h} \leq  \|\mathbb{R\times C}\|\cdot \gamma_{s,d,h} \hspace{1cm} \forall s,d,h$$
+
 $$\sum_{r, c, h^\prime \neq h} a_{s,c}\cdot \delta_{c,d,h^\prime,r} - \lambda_{s,d,h}^\prime\leq \|\mathbb{C\times R \times H\|}\cdot (1-\gamma_{s,d,h}) \hspace{1cm} \forall s,d,h$$
+
 $$\sum_{c,h,r} a_{s,c}\cdot \delta_{c,d,h,r} - \beta_{s,d,d^\prime} \leq 0 + \|\mathbb{C\times R \times H\|}\cdot \sigma_{s,d,d^\prime}\hspace{1cm} \forall s,d,d^\prime$$
+
 $$\sum_{c, h,r} a_{s,c}\cdot \delta_{c,d^\prime,h,r} -\beta_{s,d,d^\prime}^\prime \leq 0 + \|\mathbb{C\times R \times H\|}\cdot (1-\sigma_{s,d,d^\prime}) \hspace{1cm} \forall s,d,d^\prime$$
+
 $$\sum_{c} \delta_{c,d,h,r} - \zeta_{d,h,r}\leq 1 \hspace{1cm}\forall d,h,r$$
+
 > **Note:**  
 > Extras For Modeling Accuracy
 > #### Intermediate Variables:
@@ -121,10 +131,10 @@ Initially, the model was solved on the above sample dataset without the consider
 
 |             |Room 1 (cap=1)|Room 2(cap=2)|
 |-------------|------|------|
-|$d_1$ : $h_1$|$c_5$ [$s_2$]|$c_1$ [$s_1$], $c_6$ [$s_3$]|
-|$d_1$ : $h_2$|$c_7$ [$s_2$]|$c_7$ [$s_3$, $s_4$]|
-|$d_2$ : $h_1$|$c_3$ [$s_1$]|$c_3$ [$s_2$, $s_3$]|
-|$d_2$ : $h_2$|$c_4$ [$s_4$]|$c_2$ [$s_2$, $s_3$]|
+|$d_1$ : $h_1$|$c_5$ [ $s_2$ ]| $c_1$ [ $s_1$ ], $c_6$ [ $s_3$ ]|
+|$d_1$ : $h_2$|$c_7$ [ $s_2$ ]| $c_7$ [ $s_3$, $s_4$ ]|
+|$d_2$ : $h_1$|$c_3$ [ $s_1$ ]| $c_3$ [ $s_2$, $s_3$ ]|
+|$d_2$ : $h_2$|$c_4$ [ $s_4$ ]| $c_2$ [ $s_2$, $s_3$ ]|
 
 As it can be seen, no student has more than one exam in a day, students $s_2, s_3$ have consecutive exams and room 2 holds 2 course's exams at the same time on day 1 and time period 1.
 
@@ -132,11 +142,11 @@ Then we included the constraint extras for the first hard constraint and the mod
 
 |             |Room 1 (cap=1)|Room 2(cap=2)|
 |-------------|------|------|
-|$d_1$ : $h_1$|$c_4$ [$s_4$]|$c_2$ [$s_2$, $s_3$]|
-|$d_1$ : $h_2$|$c_3$ [$s_1$]|$c_3$ [$s_2$, $s_3$]|
-|$d_2$ : $h_1$|$c_7$ [$s_2$]|$c_7$ [$s_3$, $s_4$]|
-|$d_2$ : $h_2$|$c_5$ [$s_2$]|$c_1$ [$s_1$],$c_6$ [$s_3$]|
+|$d_1$ : $h_1$| $c_4$ [ $s_4$ ]| $c_2$ [ $s_2$, $s_3$]|
+|$d_1$ : $h_2$| $c_3$ [ $s_1$ ]| $c_3$ [ $s_2$, $s_3$]|
+|$d_2$ : $h_1$| $c_7$ [ $s_2$ ]| $c_7$ [ $s_3$, $s_4$]|
+|$d_2$ : $h_2$| $c_5$ [ $s_2$ ]| $c_1$ [ $s_1$ ], $c_6$ [ $s_3$ ]|
 
 This result is valid as well with minimal violations of the second and third soft constraints. Students $s_2, s_3$ have consecutive exams and room 2 holds exams for courses $c_1, c_6$ on day 2 at the second time period.
 
-Moreover, we have tried to solve the model on a larger dataset with 12 courses, 8 students, 3 days, 2 time periods and 2 rooms and by the 100 minute mark, we achieved 85% MIP gap within the 100 minute mark. However, due to the GLPK solver being a single core process, we were not able to complete a full solution.
+We tried to solve the model on a larger dataset with 12 courses, 8 students, 3 days, 2 time periods and 2 rooms and by the 100 minute mark, we achieved 85% MIP gap. However, due to single process nature of the GLPK solver, we were not able to obtain a full solution.
